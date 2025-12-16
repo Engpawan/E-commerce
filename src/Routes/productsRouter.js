@@ -55,6 +55,7 @@ router.get('/Product/:id', async(req, res)=>{
 })
 
 
+
 router.delete('/Product/:id', async(req, res) =>{
     try {
         const{id} = req.params
