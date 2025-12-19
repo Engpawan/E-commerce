@@ -1,0 +1,28 @@
+const jwt = require("jsonwebtoken")
+const userSchema = require("../modals/userSchema")
+
+const isLoggedIn = async (req, res, next) => {
+  try {
+    const { loginToken } = req.cookies
+
+    if (!loginToken) {
+      return res.status(401).json({ error: "Please login first" })
+    }
+
+    const decoded = jwt.verify(loginToken, process.env.JWT_SECRET)
+
+    const foundUser = await userSchema.findById(decoded.id)
+
+    if (!foundUser) {
+      return res.status(401).json({ error: "User not found" })
+    }
+
+    req.user = foundUser
+    next()
+
+  } catch (error) {
+    res.status(401).json({ error: error.message })
+  }
+}
+
+module.exports = { isLoggedIn }

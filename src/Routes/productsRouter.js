@@ -71,15 +71,25 @@ router.delete('/Product/:id', async(req, res) =>{
 router.patch('/Product/:id', async (req, res) => {
     try {
         const { id } = req.params
-        const updatedProduct = await productList.findByIdAndUpdate(id,req.body,)
-        if (!updatedProduct) {
-            return res.status(404).json({ error: "Product not found" })
-        }
+       const{ name, price, description, quantity, image, category } = req.body
+       const Update = await productList.findById(id)
+       if(!Update)
+       {
+        throw new Error("PRODUCT NOT FOUND")
+       }
+       if(quantity < 1)
+       {
+        throw new Error("Quantity must be Greater than 0")
+       }
+
+        const updatedProduct = await productList.findByIdAndUpdate(id, {name, price, description, quantity, image, category})
         res.status(200).json("Product Updated Successfully.." , updatedProduct)
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
 })
 
-module.exports = router
+module.exports = {
+    productRouter: router
+}
 

@@ -19,6 +19,7 @@ const productListSchemas = new mongoose.Schema({
     quantity : {
         type: Number,
         required: false,
+        minNumber : 1
     },
     image :{
         type: String,
@@ -35,7 +36,7 @@ const productListSchemas = new mongoose.Schema({
     },
     category:{
         type : String,
-        enum : ["Electronics", "Groceries", "Fashions"],
+        enum : ["Electronics", "Groceries", "Fashions","Household"],
         required: true
     }
 })
