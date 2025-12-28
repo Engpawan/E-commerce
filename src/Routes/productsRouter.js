@@ -1,5 +1,5 @@
 const express = require("express")
-const productList = require("../modals/productList")
+const productList = require("../models/productList")
 const router = express.Router()
 
 router.post('/Product', async (req, res) =>{
@@ -25,12 +25,11 @@ router.post('/Product', async (req, res) =>{
         }
         
         let obj = {name, price, description, quantity, image, category}
-
+        
         const createProduct = await productList.create(obj)
 
-
         res.status(200).json(obj)
-    } 
+    }
     
     catch (error) {
         res.status(400).json({error : error.message})
@@ -92,4 +91,3 @@ router.patch('/Product/:id', async (req, res) => {
 module.exports = {
     productRouter: router
 }
-

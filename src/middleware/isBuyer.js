@@ -1,8 +1,8 @@
 const isBuyer = (req, res, next) =>{
     try {
-        if(req.userSchema.role != "Buyer")
-        {
-            res.status(400).json({error: "Buyer Access Only !"})
+            if (req.user.role !== "Buyer") {
+            return res.status(403).json({ error: "Buyer Access Only" })
+
         }
 
         next()
@@ -14,4 +14,4 @@ const isBuyer = (req, res, next) =>{
 
 module.exports ={
     isBuyer
-} 
+}

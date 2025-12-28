@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken")
-const userSchema = require("../modals/userSchema")
+const User = require("../models/userSchema")
+
 
 const isLoggedIn = async (req, res, next) => {
   try {
@@ -11,7 +12,7 @@ const isLoggedIn = async (req, res, next) => {
 
     const decoded = jwt.verify(loginToken, process.env.JWT_SECRET)
 
-    const foundUser = await userSchema.findById(decoded.id)
+    const foundUser = await User.findById(decoded.id)
 
     if (!foundUser) {
       return res.status(401).json({ error: "User not found" })

@@ -13,7 +13,6 @@ const isSeller = (req, res, next) =>{
     }
 }
 
-
 module.exports ={
     isSeller
 }

@@ -1,9 +1,10 @@
-const userSchema = require("../modals/userSchema")
+const userSchema = require("../models/userSchema")
 const bcrypt = require("bcrypt")
 const express = require("express")
 const router = express.Router()
 const validate = require("validator")
 const jwt = require("jsonwebtoken")
+
 
 
 router.post('/signUp', async(req, res) =>{

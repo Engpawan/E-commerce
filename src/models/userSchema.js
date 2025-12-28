@@ -41,9 +41,21 @@ const userSchemas = new mongoose.Schema(
             minLength: 10,
             required: true
         },
-        cart : []
+        cart : [
+            {
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product"
+        },
+        quantity: {
+        type: Number,
+        min: 1,
+        default: 1
+        }
+    }
+        ]
     }
 )
 
 
-module.exports = mongoose.model("userInfo", userSchemas)
+module.exports = mongoose.model("User", userSchemas)

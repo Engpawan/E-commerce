@@ -19,7 +19,7 @@ const productListSchemas = new mongoose.Schema({
     quantity : {
         type: Number,
         required: false,
-        minNumber : 1
+        min : 1
     },
     image :{
         type: String,
@@ -28,7 +28,7 @@ const productListSchemas = new mongoose.Schema({
 
             if(!validURL)
             {
-                throw new Error("Image cannot be blank")
+                throw new Error("Invalid Image URL")
             }
             
         },

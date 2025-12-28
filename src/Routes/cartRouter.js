@@ -1,48 +1,30 @@
 const express = require("express")
+const mongoose = require("mongoose")
+const User = require("../models/userSchema")
 const router = express.Router()
+const { isLoggedIn } = require("../middleware/isLoggedIn")
 
-router.post('/cart', async(req, res) =>{
-    try {
-        const productId = mongoose.Schemas.Types.ObjectId
-        const{} = req.body
+router.post("/cart", isLoggedIn, async (req, res) => {
+  const { productId, quantity = 1 } = req.body
 
-        if(!productId)
-        {
-            throw new Error("Product ID is required ")
-        }
+  if (!productId) {
+    throw new Error("Product ID is required")
+  }
 
-        const userId = req.user.id 
+  const user = await User.findById(req.user._id)
 
-    const user = await userSchema.findById(userId)
+  const item = user.cart.find(
+    item => item.product.toString() === productId
+  )
 
-    const itemIndex = user.cart.findIndex(
-      item => item.productId.toString() === productId
-    )
+  if (item) {
+    item.quantity += quantity
+  } else {
+    user.cart.push({ product: productId, quantity })
+  }
 
-    if (itemIndex > -1) {
-      user.cart[itemIndex].quantity += quantity || 1
-    } else {
-      user.cart.push({ productId, quantity: quantity || 1 })
-    }
-
-    await user.save()
-
-    res.status(200).json({
-      success: true,
-      message: "Item added to cart",
-      cart: user.cart
-    })
-
-
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    }
+  await user.save()
+  res.json({ success: true, cart: user.cart })
 })
 
-
-
-
-
-module.exports ={
-    cartRouter
-}
+module.exports = { cartRouter: router }
